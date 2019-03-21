@@ -69,5 +69,3 @@ return \Response::forge(
         )
     );
 ```
-
-

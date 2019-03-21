@@ -66,7 +66,7 @@ class PDF
 
     /**
      * Constructor
-     * 
+     *
      * @param string $pathtobinary the path to the chrome-pdf binary
      */
     public function __construct(string $pathtobinary = 'chrome-pdf')
