@@ -37,6 +37,8 @@ class PDF
         'landscape',
         'scale',
         'displayHeaderFooter',
+        'headerContent',
+        'footerContent',
         'headerTemplate',
         'footerTemplate',
         'printBackground',
@@ -332,6 +334,17 @@ class PDF
         }
 
         foreach ($options as $option => $value) {
+            if ($option == 'headerContent' || $option == 'footerContent') {
+                $tmpfile = tmpfile();
+                fwrite($tmpfile, $value);
+
+                $option = str_replace('Content', 'Template', $option);
+
+                $command[] = '--' . $option;
+                $command[] = stream_get_meta_data($tmpfile)['uri'];
+                continue;
+            }
+
             $command[] = '--' . $option;
             $command[] = (is_array($value)) ? implode(',', $value) : $value;
         }
