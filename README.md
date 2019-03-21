@@ -18,6 +18,10 @@ Instantiate the class, passing the path to the `chrome-pdf` binary if necessary,
 
 The available options can be seen in the code. There is also functionality to handle a CSS-style declaring of margins to make input easier.
 
+### Docker Support
+
+In order to run chrome-pdf inside a Docker container, you will have to disable the sandbox feature by setting the `sandbox` option to `"false"` (string not boolean).
+
 ## Examples
 
 ### Laravel Example

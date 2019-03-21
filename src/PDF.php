@@ -47,6 +47,7 @@ class PDF
         'margin',
         'preferCSSPageSize',
         'file',
+        'sandbox',
     );
 
     /**
@@ -332,6 +333,16 @@ class PDF
         }
 
         foreach ($options as $option => $value) {
+            if ($option == 'sandbox') {
+                // only mess with sandbox if it is explicitly disabled
+                if ($value == 'false') {
+                    $command[] =  '--no-sandbox';
+                }
+
+                // don't need the below lines
+                continue;
+            }
+
             $command[] = '--' . $option;
             $command[] = (is_array($value)) ? implode(',', $value) : $value;
         }
