@@ -31,10 +31,10 @@ class SnappyPDF extends PDF
         'orientation' => array(
             'mapto' => 'landscape',
             'boolean' => array(
-                'landscape' => 'true',
-                'portrait' => 'false',
-                'Landscape' => 'true',
-                'Portrait' => 'false',
+                'landscape' => true,
+                'portrait' => false,
+                'Landscape' => true,
+                'Portrait' => false,
             ),
         ),
         'viewport-size' => array(
@@ -50,13 +50,13 @@ class SnappyPDF extends PDF
      *
      * @param array $options a reference to an existing array of options
      * @param string $name the name of the option to apply
-     * @param string $value the input value
+     * @param string|bool $value the input value
      *
      * @throws InvalidArgumentException
      *
      * @return void
      */
-    protected function addOption(array &$options, string $name, string $value) : void
+    protected function addOption(array &$options, string $name, $value) : void
     {
         if (array_key_exists($name, $this->snappyoptions)) {
             if (is_array($this->snappyoptions[$name])) {

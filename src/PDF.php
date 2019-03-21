@@ -21,7 +21,7 @@ class PDF
             'bottom' => 0,
             'left' => 0,
         ),
-        'printBackground' => 'true', //override binary default
+        'printBackground' => true, //override binary default
     );
 
     /**
@@ -87,14 +87,14 @@ class PDF
      *
      * @param array $options a reference to an existing array of options
      * @param string $name the name of the option to apply
-     * @param string $value the input value
+     * @param string|bool $value the input value
      *
      * @throws InvalidOptionException
      * @throws InvalidValueException
      *
      * @return void
      */
-    protected function addOption(array &$options, string $name, string $value) : void
+    protected function addOption(array &$options, string $name, $value) : void
     {
         if (in_array($name, $this->possibleoptions)) {
             if ($name == 'margin') {
@@ -160,11 +160,11 @@ class PDF
      * Public interface to addOption function
      *
      * @param string $name the name of the option to apply
-     * @param string $value the input value
+     * @param string|bool $value the input value
      *
      * @return self allows chaining
      */
-    public function setOption(string $name, string $value) : self
+    public function setOption(string $name, $value) : self
     {
         $this->addOption($this->options, $name, $value);
 
@@ -337,7 +337,7 @@ class PDF
         foreach ($options as $option => $value) {
             if ($option == 'sandbox') {
                 // only mess with sandbox if it is explicitly disabled
-                if ($value == 'false') {
+                if ($value === false) {
                     $command[] =  '--no-sandbox';
                 }
 
@@ -357,7 +357,18 @@ class PDF
             }
 
             $command[] = '--' . $option;
-            $command[] = (is_array($value)) ? implode(',', $value) : $value;
+
+            if (is_array($value)) {
+                $command[] = implode(',', $value);
+                continue;
+            } elseif ($value === true || $value === false) {
+                $command[] = var_export($value, true);
+                continue;
+            } elseif (! is_string($value)) {
+                throw new InvalidValueException;
+            }
+
+            $command[] = $value;
         }
 
         $process = new Process($command);
