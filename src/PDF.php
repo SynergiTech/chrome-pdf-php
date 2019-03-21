@@ -335,7 +335,7 @@ class PDF
         foreach ($options as $option => $value) {
             if ($option == 'sandbox') {
                 // only mess with sandbox if it is explicitly disabled
-                if ($value === false) {
+                if ($value == 'false') {
                     $command[] =  '--no-sandbox';
                 }
 
