@@ -347,6 +347,10 @@ class PDF
 
             if ($option == 'headerContent' || $option == 'footerContent') {
                 $tmpfile = tmpfile();
+
+                //Create a long term reference to file handle to avoid garbage collection
+                $this->{$option} = $tmpfile;      
+
                 fwrite($tmpfile, $value);
 
                 $option = str_replace('Content', 'Template', $option);
