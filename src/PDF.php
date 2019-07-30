@@ -25,6 +25,11 @@ class PDF
     );
 
     /**
+     * @var array list of filehandles created
+     */
+    private $filehandles = array();
+
+    /**
      * @var array list of possible options from binary
      */
     private $possibleoptions = array(
@@ -317,8 +322,6 @@ class PDF
 
     /**
      * Execute the result of the compiled options.
-     * - if the content is pre-rendered HTML, it has to be passed
-     *   in through STDIN to avoid command length issues
      *
      * @param array $options the compiled collection of options
      *
@@ -327,12 +330,6 @@ class PDF
     private function make(array $options) : string
     {
         $command = array($this->binary, $this->type);
-
-        $content = null;
-        if (array_key_exists('content', $options)) {
-            $content = $options['content'];
-            unset($options['content']);
-        }
 
         foreach ($options as $option => $value) {
             if ($option == 'sandbox') {
@@ -345,18 +342,18 @@ class PDF
                 continue;
             }
 
-            if ($option == 'headerContent' || $option == 'footerContent') {
-                $tmpfile = tmpfile();
+            if ($option == 'headerContent' || $option == 'content' || $option == 'footerContent') {
+                $tmpfile = tempnam(sys_get_temp_dir(), 'chromepdf-' . $option);
+                rename($tmpfile, $tmpfile .= '.html'); // the temporary file needs to have extension html
 
-                //Create a long term reference to file handle to avoid garbage collection
-                $this->{$option} = $tmpfile;
+                $this->filehandles[] = $tmpfile;
 
-                fwrite($tmpfile, $value);
+                file_put_contents($tmpfile, $value);
 
-                $option = str_replace('Content', 'Template', $option);
+                $option = ($option == 'content') ? 'file' : str_replace('Content', 'Template', $option);
 
                 $command[] = '--' . $option;
-                $command[] = stream_get_meta_data($tmpfile)['uri'];
+                $command[] = $tmpfile;
                 continue;
             }
 
@@ -377,14 +374,15 @@ class PDF
 
         $process = new Process($command);
 
-        if ($content !== null) {
-            $process->setInput((string) $content);
-        }
-
         $process->run();
 
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
+        }
+
+        if (count($this->filehandles) > 0) {
+            array_map('unlink', $this->filehandles);
+            $this->filehandles = array();
         }
 
         return $process->getOutput();
