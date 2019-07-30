@@ -349,7 +349,7 @@ class PDF
                 $tmpfile = tmpfile();
 
                 //Create a long term reference to file handle to avoid garbage collection
-                $this->{$option} = $tmpfile;      
+                $this->{$option} = $tmpfile;
 
                 fwrite($tmpfile, $value);
 
