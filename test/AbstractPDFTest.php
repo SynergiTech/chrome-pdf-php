@@ -48,6 +48,12 @@ class AbstractPDFTest extends TestCase
         $this->assertSame('30px', $mock->getMarginRight());
         $this->assertSame('30px', $mock->getMarginBottom());
         $this->assertSame('30px', $mock->getMarginLeft());
+
+        $mock->setMargin('1px', '2px', '3px');
+        $this->assertSame('1px', $mock->getMarginTop());
+        $this->assertSame('2px', $mock->getMarginRight());
+        $this->assertSame('3px', $mock->getMarginBottom());
+        $this->assertSame('2px', $mock->getMarginLeft());
     }
 
     public function test_waitUntil()

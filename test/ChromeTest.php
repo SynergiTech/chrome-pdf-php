@@ -473,7 +473,7 @@ class ChromeTest extends TestCase
     {
         $pdf = $this->getMockedPDF();
 
-        $pdf->expects($this->exactly(5))
+        $pdf->expects($this->exactly(6))
             ->method('createProcess')
             ->withConsecutive(
                 [ $this->logicalNot($this->contains('--margin')) ],
@@ -495,6 +495,12 @@ class ChromeTest extends TestCase
                         $this->contains('1px,2px,1px,2px')
                     )
                 ],
+                [
+                    $this->logicalAnd(
+                        $this->contains('--margin'),
+                        $this->contains('5px,6px,7px,6px')
+                    )
+                ],
                 [ $this->logicalNot($this->contains('--margin')) ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
@@ -508,6 +514,9 @@ class ChromeTest extends TestCase
         $pdf->renderContent('test');
 
         $pdf->setMargin('1px', '2px');
+        $pdf->renderContent('test');
+
+        $pdf->setMargin('5px', '6px', '7px');
         $pdf->renderContent('test');
 
         $pdf->setMargin(null);

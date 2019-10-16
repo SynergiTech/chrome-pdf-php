@@ -116,20 +116,25 @@ abstract class AbstractPDF
      * @return self
      */
     public function setMargin(
-        ?string $top = null,
+        ?string $top,
         ?string $right = null,
         ?string $bottom = null,
         ?string $left = null
     ): self {
-        if ($top !== null and $right === null and $bottom === null and $left === null) {
+        if (func_num_args() === 1) {
             $this->marginTop = $top;
             $this->marginRight = $top;
             $this->marginBottom = $top;
             $this->marginLeft = $top;
-        } elseif ($top !== null and $right !== null and $bottom === null and $left === null) {
+        } elseif (func_num_args() === 2) {
             $this->marginTop = $top;
             $this->marginRight = $right;
             $this->marginBottom = $top;
+            $this->marginLeft = $right;
+        } elseif (func_num_args() === 3) {
+            $this->marginTop = $top;
+            $this->marginRight = $right;
+            $this->marginBottom = $bottom;
             $this->marginLeft = $right;
         } else {
             $this->marginTop = $top;

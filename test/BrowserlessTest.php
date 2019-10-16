@@ -320,7 +320,7 @@ class BrowserlessTest extends TestCase
     {
         $client = $this->getMockedClient();
 
-        $client->expects($this->exactly(5))
+        $client->expects($this->exactly(6))
             ->method('post')
             ->withConsecutive(
                 [
@@ -356,6 +356,18 @@ class BrowserlessTest extends TestCase
                     $this->hasKeyValue(
                         ['json', 'options', 'margin'],
                         $this->equalTo([
+                            'top' => '5px',
+                            'right' => '6px',
+                            'bottom' => '7px',
+                            'left' => '6px',
+                        ])
+                    )
+                ],
+                [
+                    $this->anything(),
+                    $this->hasKeyValue(
+                        ['json', 'options', 'margin'],
+                        $this->equalTo([
                             'top' => '1',
                             'right' => '2',
                             'bottom' => '3',
@@ -377,6 +389,9 @@ class BrowserlessTest extends TestCase
         $bl->renderContent('test');
 
         $bl->setMargin('1px', '2px');
+        $bl->renderContent('test');
+
+        $bl->setMargin('5px', '6px', '7px');
         $bl->renderContent('test');
 
         $bl->setMargin('1', '2', '3', '4');
