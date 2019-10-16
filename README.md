@@ -1,75 +1,34 @@
 # PHP wrapper for chrome-pdf
+_For pre-V1 documentation [click here](https://github.com/SynergiTech/chrome-pdf-php/blob/117bf4ae99cdd61551dd24fa94e8d5c3a052ca6c/README.md)_
 
-This is a PHP wrapper for [SynergiTech/chrome-pdf](https://github.com/SynergiTech/chrome-pdf) inspired by [KnpLabs/snappy](https://github.com/KnpLabs/snappy).
+This is a library for creating PDFs from HTML rendered with the SkPDF backend via Chrome. In order to do this, you can opt to use one of the supported drivers:
+* [SynergiTech/chrome-pdf](https://github.com/SynergiTech/chrome-pdf)
+* [browserless](https://www.browserless.io/)
 
 ## Installation
-
-The `chrome-pdf` binary should be present on your system and optionally available on your path.
-
 ```
 composer require synergitech/chrome-pdf-php
 ```
+### chrome-pdf
+If you are planning to use the [`chrome-pdf`](https://github.com/SynergiTech/chrome-pdf) driver to render PDFs locally, you should also make sure to install this from npm.
+
+### browserless
+If you are planning to use the [browserless](https://www.browserless.io/) driver to render PDFs remotely, you should register for an API key. Remember that local assets cannot be rendered by browserless.
 
 ## Usage
+A common interface is provided via AbstractPDF. The options presented via this class will be available from all drivers.
 
-Instantiate the class, passing the path to the `chrome-pdf` binary if necessary, and apply options in the same way you would with Snappy.
+You should instantiate one of the available drivers, potentially passing options required by the driver:
+```php
+use SynergiTech\ChromePDF\Chrome;
+use SynergiTech\ChromePDF\Browserless;
 
-**Please Note** You must remember to set `displayHeaderFooter` if you want to set either a header or footer and apply margin to make it visible in the PDF.
+$pdf = new Chrome('path-to-chrome-pdf');
+$pdf->renderContent('<h1>test</h1>');
 
-The available options can be seen in the code. There is also functionality to handle a CSS-style declaring of margins to make input easier.
-
-### Docker Support
-
-In order to run chrome-pdf inside a Docker container, you will have to disable the sandbox feature by setting the `sandbox` option to `false`.
+$pdf = new Browserless('your-api-key');
+$pdf->renderContent('<h1>test</h1>');
+```
 
 ## Examples
-
-### Laravel Example
-
-```php
-use SynergiTech\ChromePDF\PDF;
-
-// a controller function
-
-$contents = view('enquiries.quote', array('enquiry' => $enquiry))->render();
-
-$pdf = new PDF();
-
-$contents = $pdf->getOutputFromHtml($contents);
-
-return response($contents)->withHeaders(array(
-    'Content-Type' => 'application/pdf',
-    'Content-Disposition' =>  'inline; filename="enquiry.pdf"',
-));
-```
-
-### FuelPHP Example (converting from Snappy)
-
-```php
-
-// a controller function
-
-$pdf = new \SynergiTech\ChromePDF\SnappyPDF();
-
-$pdf->setOption('displayHeaderFooter', 'true');
-$pdf->setOption('header-html', \View::forge('manage/invoices/pdfheader'));
-$pdf->setOption('footer-html', \View::forge('manage/invoices/pdffooter')->set(array(
-    'invoice' => $invoice
-)));
-$pdf->setOption('margin', '100px 0');
-
-$contents = $pdf->getOutputFromHtml(
-    \View::forge('manage/invoices/pdfbody')
-        ->set(array(
-            'invoice' => $invoice,
-        ))
-);
-return \Response::forge(
-        $contents,
-        200,
-        array(
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="invoice.pdf"'
-        )
-    );
-```
+Some examples can be found in the `examples` folder.
