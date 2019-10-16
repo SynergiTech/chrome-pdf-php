@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/SynergiTech/chrome-pdf-php.svg?branch=master)](https://travis-ci.org/SynergiTech/chrome-pdf-php)
 [![codecov](https://codecov.io/gh/SynergiTech/chrome-pdf-php/branch/master/graph/badge.svg)](https://codecov.io/gh/SynergiTech/chrome-pdf-php)
 
-_For pre-V1 documentation [click here](https://github.com/SynergiTech/chrome-pdf-php/blob/117bf4ae99cdd61551dd24fa94e8d5c3a052ca6c/README.md)_
+_For pre-V1 documentation [click here](https://github.com/SynergiTech/chrome-pdf-php/blob/v0/README.md)_
 
 This is a library for creating PDFs from HTML rendered with the SkPDF backend via Chrome. In order to do this, you can opt to use one of the supported drivers:
 * [SynergiTech/chrome-pdf](https://github.com/SynergiTech/chrome-pdf)
