@@ -13,7 +13,7 @@ class ChromeTest extends TestCase
         $proc = $this->createMock(Process::class, ['mustRun']);
         $proc->expects($this->once())
             ->method('mustRun')
-            ->willReturn('rendered-pdf');
+            ->will($this->returnSelf());
         return $proc;
     }
 

@@ -1,0 +1,31 @@
+name: Unit tests
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        php-versions: ['7.1', '7.2', '7.3']
+    name: Tests - ${{ matrix.php-versions }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-versions }}
+        coverage: xdebug
+
+    - name: Install deps
+      run: composer install
+
+    - name: Run tests
+      run: vendor/bin/phpunit -c phpunit.xml --coverage-clover=coverage.xml
+
+    - name: Upload code coverage
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
