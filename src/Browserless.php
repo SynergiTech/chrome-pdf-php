@@ -45,9 +45,11 @@ class Browserless extends AbstractPDF
     public function __construct(string $apiKey = null, $client = null)
     {
         if ($client === null) {
+            // @codeCoverageIgnoreStart
             $client = new \GuzzleHttp\Client([
                 'base_uri' => $this->apiUrl,
             ]);
+            // @codeCoverageIgnoreEnd
         }
         $this->client = $client;
         if ($apiKey !== null) {
