@@ -1,31 +1,29 @@
-name: Unit tests
+name: Tests
 
 on: [push]
 
 jobs:
-  run:
-    runs-on: [ubuntu-latest]
+  build:
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        php-versions: ['7.1', '7.2', '7.3', '7.4']
-    name: Tests - ${{ matrix.php-versions }}
+        laravel: [5, 6, 7, 8]
+        php: [7.1, 7.2, 7.3, 7.4, 8.0]
+        exclude:
+          - php: 7.1
+            laravel: 6
+          - php: 7.1
+            laravel: 7
+          - php: 7.1
+            laravel: 8
+          - php: 7.2
+            laravel: 8
+          - php: 8.0
+            laravel: 5
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v1
-      with:
-        php-version: ${{ matrix.php-versions }}
-        coverage: xdebug
-
-    - name: Install deps
-      run: composer install
-
-    - name: Run tests
-      run: vendor/bin/phpunit -c phpunit.xml --coverage-clover=coverage.xml
-
-    - name: Upload code coverage
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+      - name: test against Laravel ${{ matrix.laravel }} on PHP ${{ matrix.php }}
+        run: docker build . --build-arg PHP_VERSION=${{ matrix.php }} --build-arg LARAVEL=${{ matrix.laravel }}
