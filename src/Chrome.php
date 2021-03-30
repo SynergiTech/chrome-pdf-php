@@ -48,7 +48,7 @@ class Chrome extends AbstractPDF
      */
     public function createProcess($cmdline)
     {
-        return new $this->{'processClass'}([$cmdline]);
+        return new $this->{'processClass'}($cmdline);
     }
 
     /**
