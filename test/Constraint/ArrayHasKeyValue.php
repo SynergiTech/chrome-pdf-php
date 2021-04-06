@@ -17,7 +17,7 @@ final class ArrayHasKeyValue extends Constraint
     private $key;
 
     /**
-     * @var Constraint
+     * @var Constraint|null
      */
     private $valueConstraint;
 
