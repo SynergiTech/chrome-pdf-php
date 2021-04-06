@@ -240,9 +240,10 @@ class Browserless extends AbstractPDF
                 'json' => $options,
             ]);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            $body = $e->getResponse()->getBody();
-            $json = json_decode($body);
-            $message = $e->getResponse()->getBody();
+            $response = $e->getResponse();
+            $body = $response ? $response->getBody() : '';
+            $json = $response ? json_decode($body) : '';
+            $message = $body;
             if (json_last_error() === JSON_ERROR_NONE) {
                 $messages = [];
                 foreach ($json as $error) {
