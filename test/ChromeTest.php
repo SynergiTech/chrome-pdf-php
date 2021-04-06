@@ -10,7 +10,7 @@ class ChromeTest extends TestCase
 {
     private function getMockedProcess()
     {
-        $proc = $this->createMock(Process::class, ['mustRun']);
+        $proc = $this->createMock(Process::class);
         $proc->expects($this->once())
             ->method('mustRun')
             ->will($this->returnSelf());
