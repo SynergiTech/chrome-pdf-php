@@ -16,8 +16,11 @@ WORKDIR /package
 
 COPY composer.json ./
 
+ARG SYMFONY_PROCESS=5
+RUN composer require symfony/process ^$SYMFONY_PROCESS.0
+
 RUN composer install
 
 COPY . .
 
-RUN vendor/bin/phpunit --configuration phpunit.xml
+RUN composer test

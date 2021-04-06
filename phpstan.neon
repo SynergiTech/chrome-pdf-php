@@ -1,6 +1,6 @@
 parameters:
     paths:
-        - app
+        - src
     level: 5
     ignoreErrors:
         - '#Result of function abort \(void\) is used\.#'
