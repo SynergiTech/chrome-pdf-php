@@ -1,8 +1,4 @@
 parameters:
     paths:
         - src
-    level: 5
-    ignoreErrors:
-        - '#Result of function abort \(void\) is used\.#'
-        - '#Method App\\Exceptions\\Handler::render\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\Response\.#'
- 
+    level: 8
