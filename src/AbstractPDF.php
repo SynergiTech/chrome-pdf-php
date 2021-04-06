@@ -462,7 +462,7 @@ abstract class AbstractPDF
      * Renders a string of HTML to a PDF
      *
      * @param  string $content Content to render
-     * @return resource
+     * @return resource|null
      */
     abstract public function renderContent(string $content);
 
@@ -470,7 +470,7 @@ abstract class AbstractPDF
     * Renders a URL to a PDF
     *
     * @param  string $url URL to render
-    * @return resource
+    * @return resource|null
     */
     abstract public function renderURL(string $url);
 
@@ -478,7 +478,7 @@ abstract class AbstractPDF
      * Renders a local file to a PDF
      *
      * @param  string $path Local file to render
-     * @return resource
+     * @return resource|null
      */
     abstract public function renderFile(string $path);
 }
