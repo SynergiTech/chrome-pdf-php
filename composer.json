@@ -24,5 +24,12 @@
         "phpunit/phpunit": "^7.5 || ^8.4",
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpstan/phpstan": "^0.12.83"
+    },
+    "scripts": {
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit",
+            "phpstan analyse"
+        ]
     }
 }
