@@ -43,7 +43,7 @@ class Chrome extends AbstractPDF
     /**
      * A factory for creating process classes, to execute the binary
      *
-     * @param  string $cmdline The command to run
+     * @param  array $cmdline The command to run
      * @return object
      */
     public function createProcess($cmdline)
