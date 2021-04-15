@@ -1,7 +1,6 @@
 # PHP ChromePDF Renderer
 ![Unit tests](https://github.com/SynergiTech/chrome-pdf-php/workflows/Unit%20tests/badge.svg)
 [![Tests](https://github.com/SynergiTech/chrome-pdf-php/actions/workflows/main.yml/badge.svg)](https://github.com/SynergiTech/chrome-pdf-php/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/SynergiTech/chrome-pdf-php/branch/master/graph/badge.svg)](https://codecov.io/gh/SynergiTech/chrome-pdf-php)
 
 _For pre-V1 documentation [click here](https://github.com/SynergiTech/chrome-pdf-php/blob/v0/README.md)_
 
