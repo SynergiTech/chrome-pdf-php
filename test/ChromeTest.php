@@ -10,7 +10,7 @@ class ChromeTest extends TestCase
 {
     private function getMockedProcess()
     {
-        $proc = $this->createMock(Process::class, ['mustRun']);
+        $proc = $this->createMock(Process::class);
         $proc->expects($this->once())
             ->method('mustRun')
             ->will($this->returnSelf());
@@ -54,10 +54,10 @@ class ChromeTest extends TestCase
     public function test_createProcessFactory()
     {
         $pdf = new Chrome();
-        $this->assertInstanceOf(Process::class, $pdf->createProcess(''));
+        $this->assertInstanceOf(Process::class, $pdf->createProcess([]));
 
         $pdf = new Chrome('', TestProcessRunner::class);
-        $this->assertInstanceOf(TestProcessRunner::class, $pdf->createProcess(''));
+        $this->assertInstanceOf(TestProcessRunner::class, $pdf->createProcess([]));
     }
 
     public function test_sandboxOption()

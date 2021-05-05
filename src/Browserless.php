@@ -22,7 +22,7 @@ class Browserless extends AbstractPDF
     */
     private $pdfEndpoint = '/pdf';
     /**
-     * @var object
+     * @var \GuzzleHttp\Client
      */
     private $client;
     /**
@@ -40,7 +40,7 @@ class Browserless extends AbstractPDF
 
     /**
      * @param string $apiKey api key from browserless.io
-     * @param object $client custom Guzzle client
+     * @param \GuzzleHttp\Client $client custom Guzzle client
      */
     public function __construct(string $apiKey = null, $client = null)
     {
@@ -149,7 +149,7 @@ class Browserless extends AbstractPDF
     /**
      * Gets the payload of JSON options to be sent to browserless, minus the `url` or `html` property
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getFormattedOptions(): array
     {
@@ -227,7 +227,7 @@ class Browserless extends AbstractPDF
     }
 
     /**
-     * @param  array  $options
+     * @param  array<string, mixed>  $options
      * @return resource
      */
     private function render(array $options)
@@ -240,9 +240,10 @@ class Browserless extends AbstractPDF
                 'json' => $options,
             ]);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            $body = $e->getResponse()->getBody();
-            $json = json_decode($body);
-            $message = $e->getResponse()->getBody();
+            $response = $e->getResponse();
+            $body = $response ? $response->getBody() : '';
+            $json = $response ? json_decode($body) : '';
+            $message = $body;
             if (json_last_error() === JSON_ERROR_NONE) {
                 $messages = [];
                 foreach ($json as $error) {

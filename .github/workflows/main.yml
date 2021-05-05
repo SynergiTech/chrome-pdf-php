@@ -1,26 +1,17 @@
-name: Unit tests
+name: Tests
 
 on: [push]
 
 jobs:
-  run:
-    runs-on: [ubuntu-latest]
+  build:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.1', '7.2', '7.3', '7.4']
-    name: Tests - ${{ matrix.php-versions }}
+        php: [7.3, 7.4, 8.0]
+        symfony_process: [3.4, 4.0, 5.0]
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v1
-      with:
-        php-version: ${{ matrix.php-versions }}
-        coverage: xdebug
-
-    - name: Install deps
-      run: composer install
-
-    - name: Run tests
-      run: vendor/bin/phpunit -c phpunit.xml --coverage-clover=coverage.xml
+      - name: test against Symfony/Process ${{ matrix.symfony_process }} on PHP ${{ matrix.php }}
+        run: docker build . --build-arg PHP_VERSION=${{ matrix.php }} --build-arg SYMFONY_PROCESS=${{ matrix.symfony_process }}

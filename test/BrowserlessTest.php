@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\ClientException;
 
 use SynergiTech\ChromePDF\Browserless;
 use SynergiTech\ChromePDF\Browserless\APIException;
+use SynergiTech\ChromePDF\Chrome;
 use SynergiTech\ChromePDF\Test\TestCase;
 
 use PHPUnit\Framework\Constraint\ArraySubset;

@@ -462,23 +462,23 @@ abstract class AbstractPDF
      * Renders a string of HTML to a PDF
      *
      * @param  string $content Content to render
-     * @return resource
+     * @return resource|null
      */
     abstract public function renderContent(string $content);
 
     /**
     * Renders a URL to a PDF
     *
-    * @param  string $content URL to render
-    * @return resource
+    * @param  string $url URL to render
+    * @return resource|null
     */
     abstract public function renderURL(string $url);
 
     /**
      * Renders a local file to a PDF
      *
-     * @param  string $content Local file to render
-     * @return resource
+     * @param  string $path Local file to render
+     * @return resource|null
      */
     abstract public function renderFile(string $path);
 }

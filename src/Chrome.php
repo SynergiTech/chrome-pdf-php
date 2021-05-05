@@ -16,7 +16,7 @@ class Chrome extends AbstractPDF
      * an array of temporary file handles
      * they are unlinked after rendering
      *
-     * @var array
+     * @var array<string>
      */
     private $handles = [];
 
@@ -43,7 +43,7 @@ class Chrome extends AbstractPDF
     /**
      * A factory for creating process classes, to execute the binary
      *
-     * @param  string $cmdline The command to run
+     * @param  array<string> $cmdline The command to run
      * @return object
      */
     public function createProcess($cmdline)
@@ -100,7 +100,7 @@ class Chrome extends AbstractPDF
     /**
      * Gets an array of options to pass to the command line
      *
-     * @return array
+     * @return array<mixed>
      */
     private function getCommandFlags(): array
     {
@@ -139,12 +139,12 @@ class Chrome extends AbstractPDF
             $opts[] = "--no-displayHeaderFooter";
         }
         if ($this->getHeader()) {
-            $headerFile = $this->getFileForString($this->getHeader());
+            $headerFile = $this->getFileForString($this->getHeader() ?: '');
             $opts[] = "--headerTemplate";
             $opts[] = $headerFile;
         }
         if ($this->getFooter()) {
-            $footerFile = $this->getFileForString($this->getFooter());
+            $footerFile = $this->getFileForString($this->getFooter() ?: '');
             $opts[] = "--footerTemplate";
             $opts[] = $footerFile;
         }
@@ -188,7 +188,7 @@ class Chrome extends AbstractPDF
      */
     private function getFileForString(string $content): string
     {
-        $tmpfile = tempnam(sys_get_temp_dir(), 'chromepdf');
+        $tmpfile = tempnam(sys_get_temp_dir(), 'chromepdf') ?: '';
         // Chrome must see the correct extension to load it as html
         rename($tmpfile, $tmpfile .= '.html');
         $this->handles[] = $tmpfile;
@@ -200,12 +200,12 @@ class Chrome extends AbstractPDF
     /**
      * Execute the local renderer with the given options
      *
-     * @param  array $options
+     * @param  array<string> $options
      * @return string A path to a temporary file containing the rendered PDF
      */
     private function executeBinary(array $options): string
     {
-        $output = tempnam(sys_get_temp_dir(), 'chromepdf');
+        $output = tempnam(sys_get_temp_dir(), 'chromepdf') ?: '';
         $options[] = "--path";
         $options[] = $output;
         array_unshift($options, $this->binary, 'pdf');
@@ -229,7 +229,7 @@ class Chrome extends AbstractPDF
         $opts[] = $file;
 
         $outputFile = $this->executeBinary($opts);
-        return fopen($outputFile, 'r');
+        return fopen($outputFile, 'r') ?: null;
     }
 
     /**
@@ -242,7 +242,7 @@ class Chrome extends AbstractPDF
         $opts[] = $url;
 
         $outputFile = $this->executeBinary($opts);
-        return fopen($outputFile, 'r');
+        return fopen($outputFile, 'r') ?: null;
     }
 
     /**
@@ -255,6 +255,6 @@ class Chrome extends AbstractPDF
         $opts[] = $path;
 
         $outputFile = $this->executeBinary($opts);
-        return fopen($outputFile, 'r');
+        return fopen($outputFile, 'r') ?: null;
     }
 }
