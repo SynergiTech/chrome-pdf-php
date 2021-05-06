@@ -245,7 +245,8 @@ class Browserless extends AbstractPDF
             $response = $e->getResponse();
 
             /**
-             * You could use $e->hasResponse() but that is not accurate enough for phpstan
+             * You could use $e->hasResponse() but that is not accurate enough, 
+             * as phpstan will be analysing against method signatures from guzzle 6 & 7
              */
             if ($response !== null) {
                 $message = $response->getBody();
