@@ -240,16 +240,24 @@ class Browserless extends AbstractPDF
                 'json' => $options,
             ]);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $message = 'No response';
+
             $response = $e->getResponse();
-            $body = $response ? $response->getBody() : '';
-            $json = $response ? json_decode($body) : '';
-            $message = $body;
-            if (json_last_error() === JSON_ERROR_NONE) {
-                $messages = [];
-                foreach ($json as $error) {
-                    $messages[] = $error->message;
+
+            /**
+             * You could use $e->hasResponse() but that is not accurate enough for phpstan
+             */
+            if ($response !== null) {
+                $message = $response->getBody();
+
+                $json = json_decode($message);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $messages = [];
+                    foreach ($json as $error) {
+                        $messages[] = $error->message;
+                    }
+                    $message = implode(', ', $messages);
                 }
-                $message = implode(', ', $messages);
             }
 
             throw new Browserless\APIException("Failed to render PDF: {$message}", $e->getCode(), $e);
