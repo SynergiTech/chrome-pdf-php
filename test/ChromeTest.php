@@ -30,7 +30,7 @@ class ChromeTest extends TestCase
 
         $pdf->expects($this->once())
             ->method('createProcess')
-            ->with($this->contains('chrome-pdf'))
+            ->with($this->containsEqual('chrome-pdf'))
             ->willReturn($this->getMockedProcess());
 
         $pdf->renderContent('test');
@@ -45,7 +45,7 @@ class ChromeTest extends TestCase
 
         $pdf->expects($this->once())
             ->method('createProcess')
-            ->with($this->contains('test-pdf-binary'))
+            ->with($this->containsEqual('test-pdf-binary'))
             ->willReturn($this->getMockedProcess());
 
         $pdf->renderContent('test');
@@ -69,12 +69,12 @@ class ChromeTest extends TestCase
             ->withConsecutive(
                 [
                     $this->logicalAnd(
-                        $this->logicalNot($this->contains('--sandbox')),
-                        $this->logicalNot($this->contains('--no-sandbox'))
+                        $this->logicalNot($this->containsEqual('--sandbox')),
+                        $this->logicalNot($this->containsEqual('--no-sandbox'))
                     )
                 ],
-                [ $this->contains('--sandbox') ],
-                [ $this->contains('--no-sandbox') ]
+                [ $this->containsEqual('--sandbox') ],
+                [ $this->containsEqual('--no-sandbox') ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -93,18 +93,18 @@ class ChromeTest extends TestCase
             ->method('createProcess')
             ->withConsecutive(
                 [
-                    $this->logicalNot($this->contains('--emulateMedia')),
+                    $this->logicalNot($this->containsEqual('--emulateMedia')),
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--emulateMedia'),
-                        $this->contains('screen')
+                        $this->containsEqual('--emulateMedia'),
+                        $this->containsEqual('screen')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--emulateMedia'),
-                        $this->contains('print')
+                        $this->containsEqual('--emulateMedia'),
+                        $this->containsEqual('print')
                     )
                 ]
             )
@@ -126,12 +126,12 @@ class ChromeTest extends TestCase
             ->withConsecutive(
                 [
                     $this->logicalAnd(
-                        $this->logicalNot($this->contains('--landscape')),
-                        $this->logicalNot($this->contains('--no-landscape'))
+                        $this->logicalNot($this->containsEqual('--landscape')),
+                        $this->logicalNot($this->containsEqual('--no-landscape'))
                     )
                 ],
-                [ $this->contains('--landscape') ],
-                [ $this->contains('--no-landscape') ]
+                [ $this->containsEqual('--landscape') ],
+                [ $this->containsEqual('--no-landscape') ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -149,17 +149,17 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(3))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->logicalNot($this->contains('--scale')) ],
+                [ $this->logicalNot($this->containsEqual('--scale')) ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--scale'),
-                        $this->contains('3')
+                        $this->containsEqual('--scale'),
+                        $this->containsEqual('3')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--scale'),
-                        $this->contains('0.6')
+                        $this->containsEqual('--scale'),
+                        $this->containsEqual('0.6')
                     )
                 ]
             )
@@ -181,15 +181,15 @@ class ChromeTest extends TestCase
             ->withConsecutive(
                 [
                     $this->logicalAnd(
-                        $this->logicalNot($this->contains('--displayHeaderFooter')),
-                        $this->logicalNot($this->contains('--no-displayHeaderFooter'))
+                        $this->logicalNot($this->containsEqual('--displayHeaderFooter')),
+                        $this->logicalNot($this->containsEqual('--no-displayHeaderFooter'))
                     )
                 ],
-                [ $this->contains('--displayHeaderFooter') ],
-                [ $this->contains('--no-displayHeaderFooter') ],
-                [ $this->contains('--displayHeaderFooter') ],
-                [ $this->contains('--displayHeaderFooter') ],
-                [ $this->contains('--no-displayHeaderFooter') ]
+                [ $this->containsEqual('--displayHeaderFooter') ],
+                [ $this->containsEqual('--no-displayHeaderFooter') ],
+                [ $this->containsEqual('--displayHeaderFooter') ],
+                [ $this->containsEqual('--displayHeaderFooter') ],
+                [ $this->containsEqual('--no-displayHeaderFooter') ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -223,8 +223,8 @@ class ChromeTest extends TestCase
             ->method('createProcess')
             ->with(
                 $this->logicalAnd(
-                    $this->logicalNot($this->contains('--displayHeaderFooter')),
-                    $this->logicalNot($this->contains('--headerTemplate'))
+                    $this->logicalNot($this->containsEqual('--displayHeaderFooter')),
+                    $this->logicalNot($this->containsEqual('--headerTemplate'))
                 )
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
@@ -241,8 +241,8 @@ class ChromeTest extends TestCase
             // https://github.com/sebastianbergmann/phpunit/issues/3590
             ->with(
                 $this->logicalAnd(
-                    $this->contains('--displayHeaderFooter'),
-                    $this->contains('--headerTemplate'),
+                    $this->containsEqual('--displayHeaderFooter'),
+                    $this->containsEqual('--headerTemplate'),
                     $this->callback(function ($args) {
                         $key = array_search('--headerTemplate', $args) + 1;
                         $tempFile = $args[$key];
@@ -268,8 +268,8 @@ class ChromeTest extends TestCase
             ->method('createProcess')
             ->with(
                 $this->logicalAnd(
-                    $this->logicalNot($this->contains('--displayHeaderFooter')),
-                    $this->logicalNot($this->contains('--headerTemplate'))
+                    $this->logicalNot($this->containsEqual('--displayHeaderFooter')),
+                    $this->logicalNot($this->containsEqual('--headerTemplate'))
                 )
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
@@ -286,8 +286,8 @@ class ChromeTest extends TestCase
             // https://github.com/sebastianbergmann/phpunit/issues/3590
             ->with(
                 $this->logicalAnd(
-                    $this->contains('--displayHeaderFooter'),
-                    $this->contains('--footerTemplate'),
+                    $this->containsEqual('--displayHeaderFooter'),
+                    $this->containsEqual('--footerTemplate'),
                     $this->callback(function ($args) {
                         $key = array_search('--footerTemplate', $args) + 1;
                         $tempFile = $args[$key];
@@ -310,9 +310,9 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(3))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->contains('--printBackground') ],
-                [ $this->contains('--no-printBackground') ],
-                [ $this->contains('--printBackground') ]
+                [ $this->containsEqual('--printBackground') ],
+                [ $this->containsEqual('--no-printBackground') ],
+                [ $this->containsEqual('--printBackground') ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -330,14 +330,14 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(3))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->logicalNot($this->contains('--pageRanges')) ],
+                [ $this->logicalNot($this->containsEqual('--pageRanges')) ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--pageRanges'),
-                        $this->contains('1,2,5-7,9')
+                        $this->containsEqual('--pageRanges'),
+                        $this->containsEqual('1,2,5-7,9')
                     )
                 ],
-                [ $this->logicalNot($this->contains('--pageRanges')) ]
+                [ $this->logicalNot($this->containsEqual('--pageRanges')) ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -355,20 +355,20 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(4))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->logicalNot($this->contains('--width')) ],
+                [ $this->logicalNot($this->containsEqual('--width')) ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--width'),
-                        $this->contains('100')
+                        $this->containsEqual('--width'),
+                        $this->containsEqual('100')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--width'),
-                        $this->contains('56cm')
+                        $this->containsEqual('--width'),
+                        $this->containsEqual('56cm')
                     )
                 ],
-                [ $this->logicalNot($this->contains('--width')) ]
+                [ $this->logicalNot($this->containsEqual('--width')) ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -391,20 +391,20 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(4))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->logicalNot($this->contains('--height')) ],
+                [ $this->logicalNot($this->containsEqual('--height')) ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--height'),
-                        $this->contains('100')
+                        $this->containsEqual('--height'),
+                        $this->containsEqual('100')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--height'),
-                        $this->contains('56cm')
+                        $this->containsEqual('--height'),
+                        $this->containsEqual('56cm')
                     )
                 ],
-                [ $this->logicalNot($this->contains('--height')) ]
+                [ $this->logicalNot($this->containsEqual('--height')) ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -427,9 +427,9 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(3))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->logicalNot($this->contains('--preferCSSPageSize')) ],
-                [ $this->contains('--preferCSSPageSize') ],
-                [ $this->logicalNot($this->contains('--preferCSSPageSize')) ]
+                [ $this->logicalNot($this->containsEqual('--preferCSSPageSize')) ],
+                [ $this->containsEqual('--preferCSSPageSize') ],
+                [ $this->logicalNot($this->containsEqual('--preferCSSPageSize')) ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -449,14 +449,14 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(3))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->logicalNot($this->contains('--waitUntil')) ],
+                [ $this->logicalNot($this->containsEqual('--waitUntil')) ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--waitUntil'),
-                        $this->contains('domcontentloaded')
+                        $this->containsEqual('--waitUntil'),
+                        $this->containsEqual('domcontentloaded')
                     )
                 ],
-                [ $this->logicalNot($this->contains('--waitUntil')) ]
+                [ $this->logicalNot($this->containsEqual('--waitUntil')) ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -476,32 +476,32 @@ class ChromeTest extends TestCase
         $pdf->expects($this->exactly(6))
             ->method('createProcess')
             ->withConsecutive(
-                [ $this->logicalNot($this->contains('--margin')) ],
+                [ $this->logicalNot($this->containsEqual('--margin')) ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--margin'),
-                        $this->contains('0,0,0,0')
+                        $this->containsEqual('--margin'),
+                        $this->containsEqual('0,0,0,0')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--margin'),
-                        $this->contains('20px,20px,20px,20px')
+                        $this->containsEqual('--margin'),
+                        $this->containsEqual('20px,20px,20px,20px')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--margin'),
-                        $this->contains('1px,2px,1px,2px')
+                        $this->containsEqual('--margin'),
+                        $this->containsEqual('1px,2px,1px,2px')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--margin'),
-                        $this->contains('5px,6px,7px,6px')
+                        $this->containsEqual('--margin'),
+                        $this->containsEqual('5px,6px,7px,6px')
                     )
                 ],
-                [ $this->logicalNot($this->contains('--margin')) ]
+                [ $this->logicalNot($this->containsEqual('--margin')) ]
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
 
@@ -532,14 +532,14 @@ class ChromeTest extends TestCase
             ->withConsecutive(
                 [
                     $this->logicalAnd(
-                        $this->contains('--format'),
-                        $this->contains('A4')
+                        $this->containsEqual('--format'),
+                        $this->containsEqual('A4')
                     )
                 ],
                 [
                     $this->logicalAnd(
-                        $this->contains('--format'),
-                        $this->contains('Letter')
+                        $this->containsEqual('--format'),
+                        $this->containsEqual('Letter')
                     )
                 ]
             )
@@ -559,7 +559,7 @@ class ChromeTest extends TestCase
             ->method('createProcess')
             ->with(
                 $this->logicalAnd(
-                    $this->contains('--file'),
+                    $this->containsEqual('--file'),
                     $this->callback(function ($args) {
                         $key = array_search('--file', $args) + 1;
                         $tempFile = $args[$key];
@@ -585,8 +585,8 @@ class ChromeTest extends TestCase
             ->method('createProcess')
             ->with(
                 $this->logicalAnd(
-                    $this->contains('--page'),
-                    $this->contains('https://bbc.co.uk')
+                    $this->containsEqual('--page'),
+                    $this->containsEqual('https://bbc.co.uk')
                 )
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));
@@ -606,8 +606,8 @@ class ChromeTest extends TestCase
             ->method('createProcess')
             ->with(
                 $this->logicalAnd(
-                    $this->contains('--file'),
-                    $this->contains('/any/file')
+                    $this->containsEqual('--file'),
+                    $this->containsEqual('/any/file')
                 )
             )
             ->will($this->returnCallback(function () { return $this->getMockedProcess(); }));

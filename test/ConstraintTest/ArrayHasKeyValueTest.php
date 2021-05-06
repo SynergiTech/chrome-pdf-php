@@ -12,7 +12,7 @@ class ArrayHasKeyValueTest extends TestCase
     public function test_missingKeyLast()
     {
         $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessageRegexp('/Failed asserting that an array contains missing->key/');
+        $this->expectExceptionMessageMatches('/Failed asserting that an array contains missing->key/');
 
         $c = new ArrayHasKeyValue(['missing', 'key']);
         $c->evaluate(['missing' => []]);
@@ -21,7 +21,7 @@ class ArrayHasKeyValueTest extends TestCase
     public function test_missingKey()
     {
         $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessageRegexp('/Failed asserting that an array contains missing->key/');
+        $this->expectExceptionMessageMatches('/Failed asserting that an array contains missing->key/');
 
         $c = new ArrayHasKeyValue(['missing', 'key', 'test']);
         $c->evaluate([ 'missing' => [] ]);
@@ -30,7 +30,7 @@ class ArrayHasKeyValueTest extends TestCase
     public function test_keyNotArray()
     {
         $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessageRegexp('/Failed asserting that an array contains missing->key/');
+        $this->expectExceptionMessageMatches('/Failed asserting that an array contains missing->key/');
 
         $c = new ArrayHasKeyValue(['missing', 'key', 'test']);
         $c->evaluate([ 'missing' => ['key' => 'test'] ]);
@@ -39,9 +39,9 @@ class ArrayHasKeyValueTest extends TestCase
     public function test_constraintFailed()
     {
         $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessageRegexp("/Failed asserting that an array contains key and the value contains 'b'/");
+        $this->expectExceptionMessageMatches("/Failed asserting that an array contains key and the value contains 'b'/");
 
-        $c = new ArrayHasKeyValue(['key'], $this->contains('b'));
+        $c = new ArrayHasKeyValue(['key'], $this->containsEqual('b'));
         $c->evaluate([
             'key' => ['a', 'c'],
             '',
