@@ -82,6 +82,18 @@ class Browserless extends AbstractPDF
     }
 
     /**
+     * Sets the browserless API URL
+     *
+     * @param  string $apiUrl This should include the protocol, for example "https://chrome.browserless.io"
+     * @return self
+     */
+    public function setApiUrl(string $apiUrl): self
+    {
+        $this->apiUrl = $apiUrl;
+        return $this;
+    }
+
+    /**
      * Sets whether or not to ask Browserless to attempt to render the document in safe mode
      *
      * @link https://docs.browserless.io/docs/pdf.html#safemode
