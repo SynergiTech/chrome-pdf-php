@@ -657,8 +657,8 @@ class BrowserlessTest extends TestCase
     {
         $this->expectException(APIException::class);
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessageRegExp('/Failed to render PDF/');
-        $this->expectExceptionMessageRegExp('/node-pdftk/');
+        $this->expectExceptionMessageMatches('/Failed to render PDF/');
+        $this->expectExceptionMessageMatches('/node-pdftk/');
 
         $mock = new MockHandler([
             new Response(400, [], "The module 'node-pdftk' is not whitelisted in VM."),
@@ -680,8 +680,8 @@ class BrowserlessTest extends TestCase
     {
         $this->expectException(APIException::class);
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessageRegExp('/Failed to render PDF/');
-        $this->expectExceptionMessageRegExp('/"rotate" must be one of/');
+        $this->expectExceptionMessageMatches('/Failed to render PDF/');
+        $this->expectExceptionMessageMatches('/"rotate" must be one of/');
 
         $mock = new MockHandler([
             new Response(400, [], '[{"message":"\"rotate\" must be one of [90, -90, 180]","path":["rotate"],"type":"any.allowOnly","context":{"value":-1000,"valids":[90,-90,180],"key":"rotate","label":"rotate"}}]'),
@@ -703,8 +703,8 @@ class BrowserlessTest extends TestCase
     {
         $this->expectException(APIException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessageRegExp('/Failed to render PDF/');
-        $this->expectExceptionMessageRegExp('/Network error/');
+        $this->expectExceptionMessageMatches('/Failed to render PDF/');
+        $this->expectExceptionMessageMatches('/Network error/');
 
         $mock = new MockHandler([
             new RequestException("Network error", new Request('GET', 'test'))
