@@ -139,12 +139,12 @@ class Chrome extends AbstractPDF
             $opts[] = "--no-displayHeaderFooter";
         }
         if ($this->getHeader()) {
-            $headerFile = $this->getFileForString($this->getHeader() ?: '');
+            $headerFile = $this->getFileForString($this->getHeader());
             $opts[] = "--headerTemplate";
             $opts[] = $headerFile;
         }
         if ($this->getFooter()) {
-            $footerFile = $this->getFileForString($this->getFooter() ?: '');
+            $footerFile = $this->getFileForString($this->getFooter());
             $opts[] = "--footerTemplate";
             $opts[] = $footerFile;
         }
