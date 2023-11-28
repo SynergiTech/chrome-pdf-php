@@ -17,7 +17,7 @@ jobs:
             symfony_process: 6
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: test against Symfony/Process ${{ matrix.symfony_process }} on PHP ${{ matrix.php }}
         run: docker build . --build-arg PHP_VERSION=${{ matrix.php }} --build-arg SYMFONY_PROCESS=${{ matrix.symfony_process }}
