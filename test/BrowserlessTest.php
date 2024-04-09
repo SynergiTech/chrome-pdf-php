@@ -15,8 +15,6 @@ use SynergiTech\ChromePDF\Browserless\APIException;
 use SynergiTech\ChromePDF\Chrome;
 use SynergiTech\ChromePDF\Test\TestCase;
 
-use PHPUnit\Framework\Constraint\ArraySubset;
-
 class BrowserlessTest extends TestCase
 {
     private function getMockedClient()
