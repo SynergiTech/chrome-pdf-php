@@ -19,10 +19,12 @@ class Screenshot
     public function render(string $url, array $options = [])
     {
         $options = array_merge([
-            'quality' => 75,
             'type' => 'jpeg',
             'fullPage' => false,
         ], $options);
+        if ($options['type'] === 'jpeg' && ! isset($options['quality'])) {
+            $options['quality'] = 75;
+        }
 
         return $this->request(
             endpoint: '/screenshot',

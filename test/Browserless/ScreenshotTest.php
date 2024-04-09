@@ -11,13 +11,6 @@ use SynergiTech\ChromePDF\Test\TestCase;
 
 class ScreenshotTest extends TestCase
 {
-    private function getMockedClient()
-    {
-        return $this->getMockBuilder(Chrome::class)
-            ->setMethods(['post'])
-            ->getMock();
-    }
-
     public function test_render()
     {
         $client = $this->getMockedClient();
