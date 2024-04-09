@@ -16,7 +16,7 @@ composer require synergitech/chrome-pdf-php
 If you are planning to use the [`chrome-pdf`](https://github.com/SynergiTech/chrome-pdf) driver to render PDFs locally, you should also make sure to install this from npm.
 
 ### browserless
-If you are planning to use the [browserless](https://www.browserless.io/) driver to render PDFs remotely, you should register for an API key. Remember that local assets cannot be rendered by browserless.
+If you are planning to use the [browserless](https://www.browserless.io/) driver to render PDFs remotely or take screenshots, you should register for an API key. Remember that local assets cannot be rendered by browserless.
 
 ## Usage
 A common interface is provided via AbstractPDF. The options presented via this class will be available from all drivers.
@@ -25,12 +25,22 @@ You should instantiate one of the available drivers, potentially passing options
 ```php
 use SynergiTech\ChromePDF\Chrome;
 use SynergiTech\ChromePDF\Browserless;
+use SynergiTech\ChromePDF\Browserless\Screenshot;
 
 $pdf = new Chrome('path-to-chrome-pdf');
 $pdf->renderContent('<h1>test</h1>');
 
 $pdf = new Browserless('your-api-key');
 $pdf->renderContent('<h1>test</h1>');
+
+// For information on options, see https://www.browserless.io/docs/screenshot#custom-options.
+// `render()` defaults to using jpeg with a quality of 75 and fullPage set to false.
+$file = new Screenshot('your-api-key');
+$file->render('https://example.com');
+$file->render('https://example.com', [
+    'fullPage' => true,
+    'type' => 'png',
+]);
 ```
 
 ## Examples
