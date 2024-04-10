@@ -3,10 +3,7 @@
 namespace SynergiTech\ChromePDF\Test\Browserless;
 
 use GuzzleHttp\Psr7\Response;
-
-use SynergiTech\ChromePDF\Browserless;
 use SynergiTech\ChromePDF\Browserless\Screenshot;
-use SynergiTech\ChromePDF\Chrome;
 use SynergiTech\ChromePDF\Test\TestCase;
 
 class ScreenshotTest extends TestCase
@@ -20,7 +17,7 @@ class ScreenshotTest extends TestCase
             ->with($this->anything(), $this->hasKeyValue(['json', 'url'], $this->identicalTo('test')))
             ->willReturn(new Response(200, [], 'screenshot'));
 
-        $bl = new Screenshot('', $client);
+        $bl = new Screenshot(client: $client);
         $stream = $bl->render('test');
 
         $this->assertIsResource($stream);

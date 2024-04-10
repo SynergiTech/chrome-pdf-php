@@ -17,24 +17,17 @@ trait Client
     private $apiKey;
 
     /**
-     * @var string
-     */
-    private $apiUrl = 'https://chrome.browserless.io';
-
-    // public const EUROPE_REGION_URL = 'production-lon.browserless.io';
-
-    // public const US_REGION_URL = 'production-sfo.browserless.io';
-
-    /**
-     * @param string $apiKey api key from browserless.io
      * @param \GuzzleHttp\Client $client custom Guzzle client
      */
-    public function __construct(string $apiKey = null, $client = null)
-    {
+    public function __construct(
+        string $apiKey = null,
+        EndpointsEnum|string $endpoint = EndpointsEnum::Default,
+        $client = null
+    ) {
         if ($client === null) {
             // @codeCoverageIgnoreStart
             $client = new \GuzzleHttp\Client([
-                'base_uri' => $this->apiUrl,
+                'base_uri' => ($endpoint instanceof EndpointsEnum) ? $endpoint->value : $endpoint,
             ]);
             // @codeCoverageIgnoreEnd
         }
@@ -90,9 +83,9 @@ trait Client
                 }
             }
 
-            throw new APIException("Failed to render PDF: {$message}", $e->getCode(), $e);
+            throw new APIException("Failed to render from Browserless: {$message}", $e->getCode(), $e);
         } catch (\Exception $e) {
-            throw new APIException("Failed to render PDF: {$e->getMessage()}", $e->getCode(), $e);
+            throw new APIException("Failed to render from Browserless: {$e->getMessage()}", $e->getCode(), $e);
         }
 
         return StreamWrapper::getResource($response->getBody());

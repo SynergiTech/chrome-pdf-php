@@ -182,7 +182,7 @@ class Browserless extends AbstractPDF
      */
     private function render(array $options)
     {
-         return $this->request($this->pdfEndpoint, $options);
+        return $this->request($this->pdfEndpoint, $options);
     }
 
     /**

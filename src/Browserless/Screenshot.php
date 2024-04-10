@@ -7,12 +7,7 @@ class Screenshot
     use Client;
 
     /**
-     * Defaults to the following options:
-     * - quality: 75
-     * - type: jpeg
-     * - fullPage: true
-     *
-     * @param array<string, mixed> $options see https://www.browserless.io/docs/screenshot#custom-options
+     * @param array<string,mixed> $options see https://www.browserless.io/docs/screenshot#custom-options
      *
      * @return resource
      */
@@ -22,6 +17,7 @@ class Screenshot
             'type' => 'jpeg',
             'fullPage' => false,
         ], $options);
+
         if ($options['type'] === 'jpeg' && ! isset($options['quality'])) {
             $options['quality'] = 75;
         }
@@ -31,7 +27,7 @@ class Screenshot
             json: [
                 'url' => $url,
                 'options' => $options,
-            ]
+            ],
         );
     }
 }
