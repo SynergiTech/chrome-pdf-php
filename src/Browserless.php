@@ -2,29 +2,20 @@
 
 namespace SynergiTech\ChromePDF;
 
-use GuzzleHttp\Psr7\StreamWrapper;
+use SynergiTech\ChromePDF\Browserless\Client;
 
 /**
  * Driver to render PDFs remotely using browserless.io
  */
 class Browserless extends AbstractPDF
 {
-    /**
-     * @var string|null
-     */
-    private $apiKey;
-    /**
-     * @var string
-     */
-    private $apiUrl = 'https://chrome.browserless.io';
+    use Client;
+
     /**
     * @var string
     */
     private $pdfEndpoint = '/pdf';
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    private $client;
+
     /**
      * @var bool
      */
@@ -39,25 +30,6 @@ class Browserless extends AbstractPDF
     private $timeout;
 
     /**
-     * @param string $apiKey api key from browserless.io
-     * @param \GuzzleHttp\Client $client custom Guzzle client
-     */
-    public function __construct(string $apiKey = null, $client = null)
-    {
-        if ($client === null) {
-            // @codeCoverageIgnoreStart
-            $client = new \GuzzleHttp\Client([
-                'base_uri' => $this->apiUrl,
-            ]);
-            // @codeCoverageIgnoreEnd
-        }
-        $this->client = $client;
-        if ($apiKey !== null) {
-            $this->setApiKey($apiKey);
-        }
-    }
-
-    /**
      * Sets the PDF documents rotation
      *
      * @param  int $rotation The number of degrees to rotate the document by
@@ -66,18 +38,6 @@ class Browserless extends AbstractPDF
     public function setRotation(int $rotation = null): self
     {
         $this->rotate = $rotation;
-        return $this;
-    }
-
-    /**
-     * Sets the browserless API key
-     *
-     * @param  string $apiKey
-     * @return self
-     */
-    public function setApiKey(string $apiKey): self
-    {
-        $this->apiKey = $apiKey;
         return $this;
     }
 
@@ -114,16 +74,6 @@ class Browserless extends AbstractPDF
     public function getTimeout(): ?int
     {
         return $this->timeout;
-    }
-
-    /**
-     * Retrieves the browserless.io API key
-     *
-     * @return string|null
-     */
-    public function getApiKey(): ?string
-    {
-        return $this->apiKey;
     }
 
     /**
@@ -232,41 +182,7 @@ class Browserless extends AbstractPDF
      */
     private function render(array $options)
     {
-        try {
-            $response = $this->client->post($this->pdfEndpoint, [
-                'query' => [
-                    'token' => $this->getApiKey(),
-                ],
-                'json' => $options,
-            ]);
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            $message = 'No response';
-
-            $response = $e->getResponse();
-
-            /**
-             * You could use $e->hasResponse() but that is not accurate enough, 
-             * as phpstan will be analysing against method signatures from guzzle 6 & 7
-             */
-            if ($response !== null) {
-                $message = $response->getBody();
-
-                $json = json_decode($message);
-                if (json_last_error() === JSON_ERROR_NONE) {
-                    $messages = [];
-                    foreach ($json as $error) {
-                        $messages[] = $error->message;
-                    }
-                    $message = implode(', ', $messages);
-                }
-            }
-
-            throw new Browserless\APIException("Failed to render PDF: {$message}", $e->getCode(), $e);
-        } catch (\Exception $e) {
-            throw new Browserless\APIException("Failed to render PDF: {$e->getMessage()}", $e->getCode(), $e);
-        }
-
-        return StreamWrapper::getResource($response->getBody());
+        return $this->request($this->pdfEndpoint, $options);
     }
 
     /**

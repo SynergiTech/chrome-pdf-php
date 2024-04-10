@@ -15,17 +15,8 @@ use SynergiTech\ChromePDF\Browserless\APIException;
 use SynergiTech\ChromePDF\Chrome;
 use SynergiTech\ChromePDF\Test\TestCase;
 
-use PHPUnit\Framework\Constraint\ArraySubset;
-
 class BrowserlessTest extends TestCase
 {
-    private function getMockedClient()
-    {
-        return $this->getMockBuilder(Chrome::class)
-            ->setMethods(['post'])
-            ->getMock();
-    }
-
     public function test_rotation()
     {
         $client = $this->getMockedClient();
@@ -38,7 +29,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
 
         $this->assertNull($bl->getRotation());
 
@@ -63,7 +54,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
 
         $this->assertFalse($bl->getSafeMode());
 
@@ -83,7 +74,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
 
         $this->assertNull($bl->getTimeout());
 
@@ -126,7 +117,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setDisplayHeaderFooter(true);
@@ -164,7 +155,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setHeader('header-test');
@@ -189,7 +180,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setFooter('footer-test');
@@ -214,7 +205,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setFormat('Letter');
@@ -243,7 +234,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setWidth('100px');
@@ -275,7 +266,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setHeight('100px');
@@ -307,7 +298,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setLandscape(true);
@@ -383,7 +374,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setMargin('20px');
@@ -424,7 +415,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setPageRanges('2,5-7');
@@ -460,7 +451,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setPreferCSSPageSize(true);
@@ -495,7 +486,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setPrintBackground(true);
@@ -527,7 +518,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setScale(2);
@@ -559,7 +550,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setWaitUntil('domcontentloaded');
@@ -591,7 +582,7 @@ class BrowserlessTest extends TestCase
             )
             ->willReturn(new Response());
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $bl->renderContent('test');
 
         $bl->setMediaEmulation('screen');
@@ -610,7 +601,7 @@ class BrowserlessTest extends TestCase
             ->with($this->anything(), $this->hasKeyValue(['json', 'html'], $this->identicalTo('test')))
             ->willReturn(new Response(200, [], 'rendered-pdf'));
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $stream = $bl->renderContent('test');
 
         $this->assertIsResource($stream);
@@ -626,7 +617,7 @@ class BrowserlessTest extends TestCase
             ->with($this->anything(), $this->hasKeyValue(['json', 'url'], $this->identicalTo('https://bbc.co.uk')))
             ->willReturn(new Response(200, [], 'rendered-pdf'));
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $stream = $bl->renderURL('https://bbc.co.uk');
 
         $this->assertIsResource($stream);
@@ -646,7 +637,7 @@ class BrowserlessTest extends TestCase
         fwrite($tmpfile, 'test file');
         $path = stream_get_meta_data($tmpfile)['uri'];
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         $stream = $bl->renderFile($path);
 
         $this->assertIsResource($stream);
@@ -667,7 +658,7 @@ class BrowserlessTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         try {
             $stream = $bl->renderContent('');
         } catch (APIException $e) {
@@ -690,7 +681,7 @@ class BrowserlessTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         try {
             $stream = $bl->renderContent('');
         } catch (APIException $e) {
@@ -714,7 +705,7 @@ class BrowserlessTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $bl = new Browserless('', $client);
+        $bl = new Browserless(client: $client);
         try {
             $stream = $bl->renderContent('');
         } catch (APIException $e) {
