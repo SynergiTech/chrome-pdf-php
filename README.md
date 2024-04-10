@@ -1,5 +1,4 @@
 # PHP ChromePDF Renderer
-![Unit tests](https://github.com/SynergiTech/chrome-pdf-php/workflows/Unit%20tests/badge.svg)
 [![Tests](https://github.com/SynergiTech/chrome-pdf-php/actions/workflows/main.yml/badge.svg)](https://github.com/SynergiTech/chrome-pdf-php/actions/workflows/main.yml)
 
 _For pre-V1 documentation [click here](https://github.com/SynergiTech/chrome-pdf-php/blob/v0/README.md)_
@@ -7,6 +6,8 @@ _For pre-V1 documentation [click here](https://github.com/SynergiTech/chrome-pdf
 This is a library for creating PDFs from HTML rendered with the SkPDF backend via Chrome. In order to do this, you can opt to use one of the supported drivers:
 * [SynergiTech/chrome-pdf](https://github.com/SynergiTech/chrome-pdf)
 * [browserless](https://www.browserless.io/)
+
+Currently supports PHP ^8
 
 ## Installation
 ```
