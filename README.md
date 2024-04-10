@@ -50,12 +50,13 @@ As this library essentially functions as an API client for Browserless, we have 
 use SynergiTech\ChromePDF\Browserless;
 
 // For information on options, see https://www.browserless.io/docs/screenshot#custom-options.
-// `render()` defaults to using jpeg with a quality of 75 and fullPage set to false.
+// `render()` defaults to using png and fullPage set to false
+// but jpegs will get a quality of 75 set if you don't set one
 $file = new Browserless\Screenshot('your-api-key');
 $file->render('https://example.com');
 $file->render('https://example.com', [
     'fullPage' => true,
-    'type' => 'png',
+    'type' => 'jpeg',
 ]);
 ```
 

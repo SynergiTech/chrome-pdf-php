@@ -14,7 +14,7 @@ class Screenshot
     public function render(string $url, array $options = [])
     {
         $options = array_merge([
-            'type' => 'jpeg',
+            'type' => 'png',
             'fullPage' => false,
         ], $options);
 
