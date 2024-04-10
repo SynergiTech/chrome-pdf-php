@@ -8,13 +8,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.0", 8.1, 8.2, 8.3]
-        symfony_process: [7]
-        exclude:
-          - php: "8.0"
-            symfony_process: 7
-          - php: 8.1
-            symfony_process: 7
+        php: [8.1, 8.2, 8.3]
+        symfony_process: [4, 5, 6, 7]
+        # exclude:
+        #   - php: 8.1
+        #     symfony_process: 7
 
     steps:
       - uses: actions/checkout@v4

@@ -21,9 +21,9 @@ trait Client
      */
     private $apiUrl = 'https://chrome.browserless.io';
 
-    public const EUROPE_REGION_URL = 'production-lon.browserless.io';
+    // public const EUROPE_REGION_URL = 'production-lon.browserless.io';
 
-    public const US_REGION_URL = 'production-sfo.browserless.io';
+    // public const US_REGION_URL = 'production-sfo.browserless.io';
 
     /**
      * @param string $apiKey api key from browserless.io
