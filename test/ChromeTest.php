@@ -20,7 +20,7 @@ class ChromeTest extends TestCase
     private function getMockedPDF()
     {
         return $this->getMockBuilder(Chrome::class)
-            ->setMethods(['createProcess'])
+            ->onlyMethods(['createProcess'])
             ->getMock();
     }
 
@@ -40,7 +40,7 @@ class ChromeTest extends TestCase
     {
         $pdf = $this->getMockBuilder(Chrome::class)
             ->setConstructorArgs(['test-pdf-binary'])
-            ->setMethods(['createProcess'])
+            ->onlyMethods(['createProcess'])
             ->getMock();
 
         $pdf->expects($this->once())
@@ -216,7 +216,7 @@ class ChromeTest extends TestCase
     public function test_header()
     {
         $pdfBuilder = $this->getMockBuilder(Chrome::class)
-            ->setMethods(['createProcess']);
+            ->onlyMethods(['createProcess']);
 
         $pdf = $pdfBuilder->getMock();
         $pdf->expects($this->exactly(2))
@@ -261,7 +261,7 @@ class ChromeTest extends TestCase
     public function test_footer()
     {
         $pdfBuilder = $this->getMockBuilder(Chrome::class)
-            ->setMethods(['createProcess']);
+            ->onlyMethods(['createProcess']);
 
         $pdf = $pdfBuilder->getMock();
         $pdf->expects($this->exactly(2))

@@ -9,7 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
-
+use GuzzleHttp\Middleware;
 use SynergiTech\ChromePDF\Browserless;
 use SynergiTech\ChromePDF\Browserless\APIException;
 use SynergiTech\ChromePDF\Chrome;
@@ -85,37 +85,14 @@ class BrowserlessTest extends TestCase
 
     public function test_displayHeaderFooter()
     {
-        $client = $this->getMockedClient();
+        $requests = [];
 
-        $client->expects($this->exactly(6))
-            ->method('post')
-            ->withConsecutive(
-                [
-                    $this->anything(),
-                    $this->logicalNot($this->hasKeyValue(['json', 'options', 'displayHeaderFooter']))
-                ],
-                [
-                    $this->anything(),
-                    $this->hasKeyValue(['json', 'options', 'displayHeaderFooter'], $this->isTrue())
-                ],
-                [
-                    $this->anything(),
-                    $this->hasKeyValue(['json', 'options', 'displayHeaderFooter'], $this->isFalse())
-                ],
-                [
-                    $this->anything(),
-                    $this->hasKeyValue(['json', 'options', 'displayHeaderFooter'], $this->isTrue())
-                ],
-                [
-                    $this->anything(),
-                    $this->hasKeyValue(['json', 'options', 'displayHeaderFooter'], $this->isTrue())
-                ],
-                [
-                    $this->anything(),
-                    $this->hasKeyValue(['json', 'options', 'displayHeaderFooter'], $this->isFalse())
-                ]
-            )
-            ->willReturn(new Response());
+        $handlerStack = HandlerStack::create(new MockHandler(array_fill(0, 6, new Response())));
+        $handlerStack->push(Middleware::history($requests));
+
+        $client = new Client([
+            'handler' => $handlerStack,
+        ]);
 
         $bl = new Browserless(client: $client);
         $bl->renderContent('test');
@@ -135,6 +112,20 @@ class BrowserlessTest extends TestCase
 
         $bl->setFooter(null);
         $bl->renderContent('test');
+
+        $this->assertCount(6, $requests);
+
+        $requests = array_map(fn ($r) => json_decode((string) $r['request']->getBody(), true), $requests);
+
+        $options = array_column($requests, 'options');
+
+        $this->assertArrayNotHasKey('displayHeaderFooter', $options[0]);
+
+        $this->assertTrue($options[1]['displayHeaderFooter']);
+        $this->assertFalse($options[2]['displayHeaderFooter']);
+        $this->assertTrue($options[3]['displayHeaderFooter']);
+        $this->assertTrue($options[4]['displayHeaderFooter']);
+        $this->assertFalse($options[5]['displayHeaderFooter']);
     }
 
     public function test_header()
