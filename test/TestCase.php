@@ -15,7 +15,7 @@ class TestCase extends PHPUnitTestCase
     protected function getMockedClient()
     {
         return $this->getMockBuilder(Chrome::class)
-            ->setMethods(['post'])
+            ->addMethods(['post'])
             ->getMock();
     }
 }
