@@ -20,7 +20,7 @@ trait Client
      * @param \GuzzleHttp\Client $client custom Guzzle client
      */
     public function __construct(
-        string $apiKey = null,
+        ?string $apiKey = null,
         EndpointsEnum|string $endpoint = EndpointsEnum::Default,
         $client = null
     ) {

@@ -35,7 +35,7 @@ class Browserless extends AbstractPDF
      * @param  int $rotation The number of degrees to rotate the document by
      * @return self
      */
-    public function setRotation(int $rotation = null): self
+    public function setRotation(?int $rotation = null): self
     {
         $this->rotate = $rotation;
         return $this;
@@ -60,7 +60,7 @@ class Browserless extends AbstractPDF
      * @param  int $milliseconds
      * @return self
      */
-    public function setTimeout(int $milliseconds = null): self
+    public function setTimeout(?int $milliseconds = null): self
     {
         $this->timeout = $milliseconds;
         return $this;
