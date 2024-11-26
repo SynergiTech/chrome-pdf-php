@@ -110,9 +110,9 @@ class Browserless extends AbstractPDF
         if ($this->getFooter() !== null) {
             $pdfOptions['footerTemplate'] = $this->getFooter();
         }
-        if ($this->getFormat() !== null) {
-            $pdfOptions['format'] = $this->getFormat();
-        }
+
+        $pdfOptions['format'] = $this->getFormat();
+
         if ($this->getHeader() !== null) {
             $pdfOptions['headerTemplate'] = $this->getHeader();
         }
@@ -136,9 +136,9 @@ class Browserless extends AbstractPDF
         if ($this->getPreferCSSPageSize() !== null) {
             $pdfOptions['preferCSSPageSize'] = $this->getPreferCSSPageSize();
         }
-        if ($this->getPrintBackground() !== null) {
-            $pdfOptions['printBackground'] = $this->getPrintBackground();
-        }
+
+        $pdfOptions['printBackground'] = $this->getPrintBackground();
+
         if ($this->getScale() !== null) {
             $pdfOptions['scale'] = $this->getScale();
         }
