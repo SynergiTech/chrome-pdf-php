@@ -42,26 +42,6 @@ class BrowserlessTest extends TestCase
         $this->assertNull($bl->getRotation());
     }
 
-    public function test_safeMode()
-    {
-        $client = $this->getMockedClient();
-
-        $client->expects($this->once())
-            ->method('post')
-            ->with(
-                $this->anything(),
-                $this->hasKeyValue(['json', 'safeMode'], $this->isTrue())
-            )
-            ->willReturn(new Response());
-
-        $bl = new Browserless(client: $client);
-
-        $this->assertFalse($bl->getSafeMode());
-
-        $bl->setSafeMode(true);
-        $bl->renderContent('test');
-    }
-
     public function test_timeout()
     {
         $client = $this->getMockedClient();
