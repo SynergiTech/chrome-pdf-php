@@ -17,10 +17,6 @@ class Browserless extends AbstractPDF
     private $pdfEndpoint = '/pdf';
 
     /**
-     * @var bool
-     */
-    private $safeMode = false;
-    /**
      * @var int|null
      */
     private $rotate;
@@ -38,19 +34,6 @@ class Browserless extends AbstractPDF
     public function setRotation(?int $rotation = null): self
     {
         $this->rotate = $rotation;
-        return $this;
-    }
-
-    /**
-     * Sets whether or not to ask Browserless to attempt to render the document in safe mode
-     *
-     * @link https://docs.browserless.io/docs/pdf.html#safemode
-     * @param  bool $safeMode
-     * @return self
-     */
-    public function setSafeMode(bool $safeMode): self
-    {
-        $this->safeMode = $safeMode;
         return $this;
     }
 
@@ -74,16 +57,6 @@ class Browserless extends AbstractPDF
     public function getTimeout(): ?int
     {
         return $this->timeout;
-    }
-
-    /**
-     * Whether the document will be rendered in safe mode or not
-     *
-     * @return bool
-     */
-    public function getSafeMode(): bool
-    {
-        return $this->safeMode;
     }
 
     /**
@@ -151,7 +124,6 @@ class Browserless extends AbstractPDF
 
         $options = [
             'options' => $pdfOptions,
-            'safeMode' => $this->getSafeMode(),
         ];
 
         $goto = [];
